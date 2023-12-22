@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20231202000000" author="kvcrm">
+        <createSequence sequenceName="contact_id_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="contacts">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(25)"/>
+            <column name="last_name" type="varchar(25)"/>
+            <column name="email" type="varchar(120)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_contact_email"/>
+            </column>
+            <column name="phone" type="varchar(50)"/>
+            <column name="address" type="varchar(150)"/>
+            <column name="city" type="varchar(50)"/>
+            <column name="region" type="varchar(50)"/>
+            <column name="country" type="varchar(2)"/>
+            <column name="postal_code" type="varchar(25)"/>
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -7,5 +7,6 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="migrations/changelog/20231201000000_CreateAccountsTable.xml"/>
+    <include file="migrations/changelog/20231202000000_CreateContactsTable.xml"/>
 
 </databaseChangeLog>
