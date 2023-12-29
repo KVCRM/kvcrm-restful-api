@@ -3,6 +3,8 @@ package com.kvcrm.config;
 import java.time.Duration;
 
 import com.kvcrm.entity.Account;
+import com.kvcrm.entity.Contact;
+import com.kvcrm.entity.Organization;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ExpiryPolicyBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
@@ -47,6 +49,8 @@ class CacheConfig {
   JCacheManagerCustomizer cacheManagerCustomizer() {
     return cm -> {
       createCache(cm, Account.class.getName());
+      createCache(cm, Contact.class.getName());
+      createCache(cm, Organization.class.getName());
     };
   }
 
