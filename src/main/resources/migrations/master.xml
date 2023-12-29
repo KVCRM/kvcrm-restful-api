@@ -8,5 +8,6 @@
 
     <include file="migrations/changelog/20231201000000_CreateAccountsTable.xml"/>
     <include file="migrations/changelog/20231202000000_CreateContactsTable.xml"/>
+    <include file="migrations/changelog/20231203000000_CreateOrganizationsTable.xml"/>
 
 </databaseChangeLog>

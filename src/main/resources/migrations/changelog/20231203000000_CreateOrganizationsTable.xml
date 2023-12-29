@@ -6,9 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="20231202000000" author="kvcrm">
-        <createSequence sequenceName="contact_id_seq" startValue="1" incrementBy="1"/>
-        <createTable tableName="contacts">
+    <changeSet id="20231203000000" author="kvcrm">
+        <createSequence sequenceName="organization_id_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="organizations">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -16,11 +16,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="is_deleted" type="boolean" />
-            <column name="first_name" type="varchar(25)"/>
-            <column name="last_name" type="varchar(25)"/>
-            <column name="email" type="varchar(50)">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_contact_email"/>
-            </column>
+            <column name="name" type="varchar(100)"/>
+            <column name="email" type="varchar(50)" />
             <column name="phone" type="varchar(50)"/>
             <column name="address" type="varchar(150)"/>
             <column name="city" type="varchar(50)"/>
@@ -34,8 +31,8 @@
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="account_id"
-                                 baseTableName="contacts"
-                                 constraintName="fk_contact_account_id"
+                                 baseTableName="organizations"
+                                 constraintName="fk_organization_account_id"
                                  referencedColumnNames="id"
                                  referencedTableName="accounts"/>
     </changeSet>

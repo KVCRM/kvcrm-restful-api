@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository
     extends PagingAndSortingRepository<Account, Long>, JpaRepository<Account, Long> {
 
-  List<Account> findByEmail(String email);
+  List<Account> findByName(String name);
 
-  List<Account> findByEmailContaining(String email);
+  List<Account> findByNameContaining(String name);
 
 }

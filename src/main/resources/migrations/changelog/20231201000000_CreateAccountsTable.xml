@@ -12,8 +12,8 @@
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="email" type="varchar(120)">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_account_email"/>
+            <column name="name" type="varchar(120)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_account_name"/>
             </column>
             <column name="created_at" type="timestamp"/>
             <column name="updated_at" type="timestamp">

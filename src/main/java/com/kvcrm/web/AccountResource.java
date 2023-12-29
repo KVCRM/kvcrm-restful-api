@@ -49,7 +49,9 @@ class AccountResource {
                        content = @Content(schema = @Schema(implementation = ApiError.class))),
       })
   ResponseEntity<Account> create(@RequestBody AccountRequest accountRequest) {
-    Account account = accountRepository.save(new Account(accountRequest.email()));
+    Account account = accountRepository.save(Account.builder()
+        .name(accountRequest.name())
+        .build());
     return new ResponseEntity<>(account, HttpStatus.CREATED);
   }
 
@@ -87,13 +89,13 @@ class AccountResource {
                        description = "Bad request",
                        content = @Content(schema = @Schema(implementation = ApiError.class))),
       })
-  ResponseEntity<List<Account>> findAll(@RequestParam(required = false) String email) {
+  ResponseEntity<List<Account>> findAll(@RequestParam(required = false) String name) {
     List<Account> accounts = new ArrayList<>();
 
-    if (email == null) {
+    if (name == null) {
       accounts.addAll(accountRepository.findAll());
     } else {
-      accounts.addAll(accountRepository.findByEmailContaining(email));
+      accounts.addAll(accountRepository.findByNameContaining(name));
     }
 
     return new ResponseEntity<>(accounts, HttpStatus.OK);
@@ -117,7 +119,7 @@ class AccountResource {
 
     if (accountData.isPresent()) {
       Account account = accountData.get();
-      account.setEmail(accountRequest.email());
+      account.setName(accountRequest.name());
       return new ResponseEntity<>(accountRepository.save(account), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -131,6 +133,6 @@ class AccountResource {
 
   }
 
-  record AccountRequest(String email) {
+  record AccountRequest(String name) {
   }
 }

@@ -46,7 +46,7 @@ class AccountResourceTest {
 
   @Test
   void shouldCreateAccount() throws Exception {
-    Account account = new Account(1L, "spring@example.com");
+    Account account = Account.builder().id(1L).name("spring@example.com").build();
 
     mockMvc.perform(post("/api/v1/accounts").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(account)))
@@ -57,12 +57,12 @@ class AccountResourceTest {
   @Test
   void shouldReturnAccount() throws Exception {
     long id = 1L;
-    Account account = new Account(id, "i@example.com");
+    Account account =  Account.builder().id(id).name("i@example.com").build();
 
     when(accountRepository.findById(id)).thenReturn(Optional.of(account));
     mockMvc.perform(get("/api/v1/accounts/{id}", id)).andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(id))
-        .andExpect(jsonPath("$.email").value(account.getEmail()))
+        .andExpect(jsonPath("$.name").value(account.getName()))
         .andDo(print());
   }
 
@@ -79,9 +79,9 @@ class AccountResourceTest {
   @Test
   void shouldReturnListOfAccounts() throws Exception {
     List<Account> accounts = new ArrayList<>(
-        Arrays.asList(new Account(1L, "spring@example.com 1"),
-            new Account(2L, "spring@example.com 2"),
-            new Account(3L, "spring@example.com 3")));
+        Arrays.asList(Account.builder().id(1L).name("spring@example.com 1").build(),
+             Account.builder().id(2L).name("spring@example.com 2").build(),
+            Account.builder().id(3L).name("spring@example.com 3").build()));
 
     when(accountRepository.findAll()).thenReturn(accounts);
     mockMvc.perform(get("/api/v1/accounts"))
@@ -93,14 +93,14 @@ class AccountResourceTest {
   @Test
   void shouldReturnListOfAccountsWithFilter() throws Exception {
     List<Account> accounts = new ArrayList<>(
-        Arrays.asList(new Account(1L, "spring@example.com"),
-            new Account(3L, "demo@example.com")));
+        Arrays.asList(Account.builder().id(1L).name("spring@example.com").build(),
+            Account.builder().id(3L).name("demo@example.com").build()));
 
-    String email = "example";
+    String name = "example";
     MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-    paramsMap.add("email", email);
+    paramsMap.add("name", name);
 
-    when(accountRepository.findByEmailContaining(email)).thenReturn(accounts);
+    when(accountRepository.findByNameContaining(name)).thenReturn(accounts);
     mockMvc.perform(get("/api/v1/accounts").params(paramsMap))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(accounts.size()))
@@ -111,8 +111,8 @@ class AccountResourceTest {
   void shouldUpdateAccount() throws Exception {
     long id = 1L;
 
-    Account account = new Account(id, "spring@example.com");
-    Account updatedAccount = new Account(id, "updated@example.com");
+    Account account = Account.builder().id(id).name("spring@example.com").build();
+    Account updatedAccount = Account.builder().id(id).name("updated@example.com").build();
 
     when(accountRepository.findById(id)).thenReturn(Optional.of(account));
     when(accountRepository.save(any(Account.class))).thenReturn(updatedAccount);
@@ -120,7 +120,7 @@ class AccountResourceTest {
     mockMvc.perform(put("/api/v1/accounts/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedAccount)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.email").value(updatedAccount.getEmail()))
+        .andExpect(jsonPath("$.name").value(updatedAccount.getName()))
         .andDo(print());
   }
 
@@ -128,7 +128,7 @@ class AccountResourceTest {
   void shouldReturnNotFoundUpdateAccount() throws Exception {
     long id = 1L;
 
-    Account updatedAccount = new Account(id, "updated@example.com");
+    Account updatedAccount = Account.builder().id(id).name("updated@example.com").build();
 
     when(accountRepository.findById(id)).thenReturn(Optional.empty());
     when(accountRepository.save(any(Account.class))).thenReturn(updatedAccount);
