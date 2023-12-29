@@ -34,7 +34,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = Organization.TABLE_NAME)
-@EqualsAndHashCode(of = {"id", "firstName", "lastName"})
+@EqualsAndHashCode(of = {"id", "name"})
 @EntityListeners(AuditingEntityListener.class)
 public class Organization {
 
@@ -57,6 +57,7 @@ public class Organization {
   @JoinColumn(name = "account_id")
   private Account account;
 
+  @Builder.Default
   private boolean isDeleted = false;
 
   @Size(min = 1, max = 100)

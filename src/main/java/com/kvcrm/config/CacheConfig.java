@@ -5,6 +5,7 @@ import java.time.Duration;
 import com.kvcrm.entity.Account;
 import com.kvcrm.entity.Contact;
 import com.kvcrm.entity.Organization;
+import com.kvcrm.entity.User;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ExpiryPolicyBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
@@ -51,6 +52,7 @@ class CacheConfig {
       createCache(cm, Account.class.getName());
       createCache(cm, Contact.class.getName());
       createCache(cm, Organization.class.getName());
+      createCache(cm, User.class.getName());
     };
   }
 

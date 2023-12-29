@@ -57,8 +57,10 @@ public class User {
   @JoinColumn(name = "account_id")
   private Account account;
 
+  @Builder.Default
   private boolean isDeleted = false;
 
+  @Builder.Default
   private boolean owner = false;
 
   @Size(min = 1, max = 25)
