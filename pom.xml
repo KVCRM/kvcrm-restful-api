@@ -172,6 +172,7 @@
                     <excludes>
                         <exclude>**/*Application.class</exclude>
                         <exclude>**/config/Cache*.class</exclude>
+                        <exclude>**/entity/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
