@@ -33,23 +33,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = Contact.TABLE_NAME)
-@EqualsAndHashCode(of = {"id", "firstName", "lastName"})
+@Table(name = User.TABLE_NAME)
+@EqualsAndHashCode(of = {"id", "email", "firstName", "lastName"})
 @EntityListeners(AuditingEntityListener.class)
-public class Contact {
+public class User {
 
-  protected static final String TABLE_NAME = "contacts";
+  protected static final String TABLE_NAME = "users";
 
   @Id
   @SequenceGenerator(
-      name = "contact_id_seq",
-      sequenceName = "contact_id_seq",
+      name = "user_id_seq",
+      sequenceName = "user_id_seq",
       initialValue = 1,
       allocationSize = 1
   )
   @GeneratedValue(
       strategy = GenerationType.SEQUENCE,
-      generator = "contact_id_seq"
+      generator = "user_id_seq"
   )
   private Long id;
 
@@ -59,6 +59,8 @@ public class Contact {
 
   private boolean isDeleted = false;
 
+  private boolean owner = false;
+
   @Size(min = 1, max = 25)
   @Column(length = 25)
   private String firstName;
@@ -67,34 +69,16 @@ public class Contact {
   @Column(length = 25)
   private String lastName;
 
-  @Size(max = 50)
-  @Column(length = 50)
-  private String phone;
-
-  @Size(max = 150)
-  @Column(length = 150)
-  private String address;
-
-  @Size(max = 50)
-  @Column(length = 50)
-  private String city;
-
-  @Size(max = 50)
-  @Column(length = 50)
-  private String region;
-
-  @Size(max = 2)
-  @Column(length = 2)
-  private String country;
-
-  @Size(max = 25)
-  @Column(length = 25)
-  private String postalCode;
-
   @Email
   @Size(min = 5, max = 50)
   @Column(length = 50, unique = true)
   private String email;
+
+  @Column(length = 50, unique = true)
+  private String password;
+
+  @Column(length = 50)
+  private String photoPath;
 
   @CreatedDate
   @Temporal(TemporalType.TIMESTAMP)

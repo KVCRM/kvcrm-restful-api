@@ -60,7 +60,7 @@ public class Organization {
   private boolean isDeleted = false;
 
   @Size(min = 1, max = 100)
-  @Column(length = 100)
+  @Column(length = 100, unique = true)
   private String name;
 
   @Size(max = 50)

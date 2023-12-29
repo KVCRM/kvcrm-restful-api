@@ -6,9 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="20231203000000" author="kvcrm">
-        <createSequence sequenceName="organization_id_seq" startValue="1" incrementBy="1"/>
-        <createTable tableName="organizations">
+    <changeSet id="20231205000000" author="kvcrm">
+        <createSequence sequenceName="user_id_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="users">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -16,16 +16,16 @@
                 <constraints nullable="false"/>
             </column>
             <column name="is_deleted" type="boolean" />
-            <column name="name" type="varchar(100)">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_organization_name"/>
+            <column name="first_name" type="varchar(25)"/>
+            <column name="last_name" type="varchar(25)"/>
+            <column name="email" type="varchar(50)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_email"/>
             </column>
-            <column name="email" type="varchar(50)" />
-            <column name="phone" type="varchar(50)"/>
-            <column name="address" type="varchar(150)"/>
-            <column name="city" type="varchar(50)"/>
-            <column name="region" type="varchar(50)"/>
-            <column name="country" type="varchar(2)"/>
-            <column name="postal_code" type="varchar(25)"/>
+            <column name="password" type="varchar(50)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_password"/>
+            </column>
+            <column name="owner" type="boolean" />
+            <column name="photo_path" type="varchar(50)" />
             <column name="created_at" type="timestamp"/>
             <column name="updated_at" type="timestamp">
                 <constraints nullable="true"/>
@@ -33,10 +33,9 @@
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="account_id"
-                                 baseTableName="organizations"
-                                 constraintName="fk_organization_account_id"
+                                 baseTableName="users"
+                                 constraintName="fk_user_account_id"
                                  referencedColumnNames="id"
                                  referencedTableName="accounts"/>
     </changeSet>
-
 </databaseChangeLog>
