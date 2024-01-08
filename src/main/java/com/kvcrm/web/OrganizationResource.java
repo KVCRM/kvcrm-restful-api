@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Organization resource", description = "API endpoints for managing organization entity.")
 @Validated
-@RequestMapping("/api/v1/organizations")
+@RequestMapping("/v1/organizations")
 @RequiredArgsConstructor
 class OrganizationResource {
 

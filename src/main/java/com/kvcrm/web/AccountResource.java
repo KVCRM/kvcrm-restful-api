@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Account resource", description = "API endpoints for managing account entity.")
 @Validated
-@RequestMapping("/api/v1/accounts")
+@RequestMapping("/v1/accounts")
 @RequiredArgsConstructor
 class AccountResource {
 

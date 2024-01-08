@@ -46,7 +46,7 @@ class UserResourceTest {
   void shouldCreateUser() throws Exception {
     User user = User.builder().id(1L).email("spring@example.com").build();
 
-    mockMvc.perform(post("/api/v1/users").contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(user)))
         .andExpect(status().isCreated())
         .andDo(print());
@@ -58,7 +58,7 @@ class UserResourceTest {
     User user =  User.builder().id(id).email("i@example.com").build();
 
     when(userRepository.findById(id)).thenReturn(Optional.of(user));
-    mockMvc.perform(get("/api/v1/users/{id}", id)).andExpect(status().isOk())
+    mockMvc.perform(get("/v1/users/{id}", id)).andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(id))
         .andExpect(jsonPath("$.email").value(user.getEmail()))
         .andDo(print());
@@ -69,7 +69,7 @@ class UserResourceTest {
     long id = 1L;
 
     when(userRepository.findById(id)).thenReturn(Optional.empty());
-    mockMvc.perform(get("/api/v1/users/{id}", id))
+    mockMvc.perform(get("/v1/users/{id}", id))
         .andExpect(status().isNotFound())
         .andDo(print());
   }
@@ -82,7 +82,7 @@ class UserResourceTest {
             User.builder().id(3L).email("spring@example.com 3").build()));
 
     when(userRepository.findAll()).thenReturn(users);
-    mockMvc.perform(get("/api/v1/users"))
+    mockMvc.perform(get("/v1/users"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(users.size()))
         .andDo(print());
@@ -98,7 +98,7 @@ class UserResourceTest {
     when(userRepository.findById(id)).thenReturn(Optional.of(user));
     when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-    mockMvc.perform(put("/api/v1/users/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/users/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedUser)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.email").value(updatedUser.getEmail()))
@@ -114,7 +114,7 @@ class UserResourceTest {
     when(userRepository.findById(id)).thenReturn(Optional.empty());
     when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-    mockMvc.perform(put("/api/v1/users/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/users/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedUser)))
         .andExpect(status().isNotFound())
         .andDo(print());
@@ -125,7 +125,7 @@ class UserResourceTest {
     long id = 1L;
 
     doNothing().when(userRepository).deleteById(id);
-    mockMvc.perform(delete("/api/v1/users/{id}", id))
+    mockMvc.perform(delete("/v1/users/{id}", id))
         .andExpect(status().isNoContent())
         .andDo(print());
   }

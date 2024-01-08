@@ -46,7 +46,7 @@ class ContactResourceTest {
   void shouldCreateContact() throws Exception {
     Contact contact = Contact.builder().id(1L).email("spring@example.com").build();
 
-    mockMvc.perform(post("/api/v1/contacts").contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(post("/v1/contacts").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(contact)))
         .andExpect(status().isCreated())
         .andDo(print());
@@ -58,7 +58,7 @@ class ContactResourceTest {
     Contact contact =  Contact.builder().id(id).email("i@example.com").build();
 
     when(contactRepository.findById(id)).thenReturn(Optional.of(contact));
-    mockMvc.perform(get("/api/v1/contacts/{id}", id)).andExpect(status().isOk())
+    mockMvc.perform(get("/v1/contacts/{id}", id)).andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(id))
         .andExpect(jsonPath("$.email").value(contact.getEmail()))
         .andDo(print());
@@ -69,7 +69,7 @@ class ContactResourceTest {
     long id = 1L;
 
     when(contactRepository.findById(id)).thenReturn(Optional.empty());
-    mockMvc.perform(get("/api/v1/contacts/{id}", id))
+    mockMvc.perform(get("/v1/contacts/{id}", id))
         .andExpect(status().isNotFound())
         .andDo(print());
   }
@@ -82,7 +82,7 @@ class ContactResourceTest {
             Contact.builder().id(3L).email("spring@example.com 3").build()));
 
     when(contactRepository.findAll()).thenReturn(contacts);
-    mockMvc.perform(get("/api/v1/contacts"))
+    mockMvc.perform(get("/v1/contacts"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(contacts.size()))
         .andDo(print());
@@ -98,7 +98,7 @@ class ContactResourceTest {
     when(contactRepository.findById(id)).thenReturn(Optional.of(contact));
     when(contactRepository.save(any(Contact.class))).thenReturn(updatedContact);
 
-    mockMvc.perform(put("/api/v1/contacts/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/contacts/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedContact)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.email").value(updatedContact.getEmail()))
@@ -114,7 +114,7 @@ class ContactResourceTest {
     when(contactRepository.findById(id)).thenReturn(Optional.empty());
     when(contactRepository.save(any(Contact.class))).thenReturn(updatedContact);
 
-    mockMvc.perform(put("/api/v1/contacts/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/contacts/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedContact)))
         .andExpect(status().isNotFound())
         .andDo(print());
@@ -125,7 +125,7 @@ class ContactResourceTest {
     long id = 1L;
 
     doNothing().when(contactRepository).deleteById(id);
-    mockMvc.perform(delete("/api/v1/contacts/{id}", id))
+    mockMvc.perform(delete("/v1/contacts/{id}", id))
         .andExpect(status().isNoContent())
         .andDo(print());
   }

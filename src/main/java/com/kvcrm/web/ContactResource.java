@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Contact resource", description = "API endpoints for managing contact entity.")
 @Validated
-@RequestMapping("/api/v1/contacts")
+@RequestMapping("/v1/contacts")
 @RequiredArgsConstructor
 class ContactResource {
 

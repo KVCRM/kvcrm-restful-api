@@ -48,7 +48,7 @@ class AccountResourceTest {
   void shouldCreateAccount() throws Exception {
     Account account = Account.builder().id(1L).name("spring@example.com").build();
 
-    mockMvc.perform(post("/api/v1/accounts").contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(post("/v1/accounts").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(account)))
         .andExpect(status().isCreated())
         .andDo(print());
@@ -60,7 +60,7 @@ class AccountResourceTest {
     Account account =  Account.builder().id(id).name("i@example.com").build();
 
     when(accountRepository.findById(id)).thenReturn(Optional.of(account));
-    mockMvc.perform(get("/api/v1/accounts/{id}", id)).andExpect(status().isOk())
+    mockMvc.perform(get("/v1/accounts/{id}", id)).andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(id))
         .andExpect(jsonPath("$.name").value(account.getName()))
         .andDo(print());
@@ -71,7 +71,7 @@ class AccountResourceTest {
     long id = 1L;
 
     when(accountRepository.findById(id)).thenReturn(Optional.empty());
-    mockMvc.perform(get("/api/v1/accounts/{id}", id))
+    mockMvc.perform(get("/v1/accounts/{id}", id))
         .andExpect(status().isNotFound())
         .andDo(print());
   }
@@ -84,7 +84,7 @@ class AccountResourceTest {
             Account.builder().id(3L).name("spring@example.com 3").build()));
 
     when(accountRepository.findAll()).thenReturn(accounts);
-    mockMvc.perform(get("/api/v1/accounts"))
+    mockMvc.perform(get("/v1/accounts"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(accounts.size()))
         .andDo(print());
@@ -101,7 +101,7 @@ class AccountResourceTest {
     paramsMap.add("name", name);
 
     when(accountRepository.findByNameContaining(name)).thenReturn(accounts);
-    mockMvc.perform(get("/api/v1/accounts").params(paramsMap))
+    mockMvc.perform(get("/v1/accounts").params(paramsMap))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(accounts.size()))
         .andDo(print());
@@ -117,7 +117,7 @@ class AccountResourceTest {
     when(accountRepository.findById(id)).thenReturn(Optional.of(account));
     when(accountRepository.save(any(Account.class))).thenReturn(updatedAccount);
 
-    mockMvc.perform(put("/api/v1/accounts/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/accounts/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedAccount)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.name").value(updatedAccount.getName()))
@@ -133,7 +133,7 @@ class AccountResourceTest {
     when(accountRepository.findById(id)).thenReturn(Optional.empty());
     when(accountRepository.save(any(Account.class))).thenReturn(updatedAccount);
 
-    mockMvc.perform(put("/api/v1/accounts/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/accounts/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedAccount)))
         .andExpect(status().isNotFound())
         .andDo(print());
@@ -144,7 +144,7 @@ class AccountResourceTest {
     long id = 1L;
 
     doNothing().when(accountRepository).deleteById(id);
-    mockMvc.perform(delete("/api/v1/accounts/{id}", id))
+    mockMvc.perform(delete("/v1/accounts/{id}", id))
         .andExpect(status().isNoContent())
         .andDo(print());
   }

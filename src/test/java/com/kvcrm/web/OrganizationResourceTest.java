@@ -46,7 +46,7 @@ class OrganizationResourceTest {
   void shouldCreateOrganization() throws Exception {
     Organization organization = Organization.builder().id(1L).email("spring@example.com").build();
 
-    mockMvc.perform(post("/api/v1/organizations").contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(post("/v1/organizations").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(organization)))
         .andExpect(status().isCreated())
         .andDo(print());
@@ -58,7 +58,7 @@ class OrganizationResourceTest {
     Organization organization =  Organization.builder().id(id).email("i@example.com").build();
 
     when(organizationRepository.findById(id)).thenReturn(Optional.of(organization));
-    mockMvc.perform(get("/api/v1/organizations/{id}", id)).andExpect(status().isOk())
+    mockMvc.perform(get("/v1/organizations/{id}", id)).andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(id))
         .andExpect(jsonPath("$.email").value(organization.getEmail()))
         .andDo(print());
@@ -69,7 +69,7 @@ class OrganizationResourceTest {
     long id = 1L;
 
     when(organizationRepository.findById(id)).thenReturn(Optional.empty());
-    mockMvc.perform(get("/api/v1/organizations/{id}", id))
+    mockMvc.perform(get("/v1/organizations/{id}", id))
         .andExpect(status().isNotFound())
         .andDo(print());
   }
@@ -82,7 +82,7 @@ class OrganizationResourceTest {
             Organization.builder().id(3L).email("spring@example.com 3").build()));
 
     when(organizationRepository.findAll()).thenReturn(organizations);
-    mockMvc.perform(get("/api/v1/organizations"))
+    mockMvc.perform(get("/v1/organizations"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(organizations.size()))
         .andDo(print());
@@ -98,7 +98,7 @@ class OrganizationResourceTest {
     when(organizationRepository.findById(id)).thenReturn(Optional.of(organization));
     when(organizationRepository.save(any(Organization.class))).thenReturn(updatedOrganization);
 
-    mockMvc.perform(put("/api/v1/organizations/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/organizations/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedOrganization)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.email").value(updatedOrganization.getEmail()))
@@ -114,7 +114,7 @@ class OrganizationResourceTest {
     when(organizationRepository.findById(id)).thenReturn(Optional.empty());
     when(organizationRepository.save(any(Organization.class))).thenReturn(updatedOrganization);
 
-    mockMvc.perform(put("/api/v1/organizations/{id}", id).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(put("/v1/organizations/{id}", id).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updatedOrganization)))
         .andExpect(status().isNotFound())
         .andDo(print());
@@ -125,7 +125,7 @@ class OrganizationResourceTest {
     long id = 1L;
 
     doNothing().when(organizationRepository).deleteById(id);
-    mockMvc.perform(delete("/api/v1/organizations/{id}", id))
+    mockMvc.perform(delete("/v1/organizations/{id}", id))
         .andExpect(status().isNoContent())
         .andDo(print());
   }
