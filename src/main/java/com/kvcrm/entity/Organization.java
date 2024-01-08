@@ -23,6 +23,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,7 +38,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Table(name = Organization.TABLE_NAME)
 @EqualsAndHashCode(of = {"id", "name"})
+@ToString(onlyExplicitlyIncluded = true)
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE " + Organization.TABLE_NAME + "  SET is_deleted = true WHERE id = ?")
+@SQLRestriction(" is_deleted = false ")
 public class Organization {
 
   protected static final String TABLE_NAME = "contacts";
@@ -51,6 +57,7 @@ public class Organization {
       strategy = GenerationType.SEQUENCE,
       generator = "contact_id_seq"
   )
+  @ToString.Include
   private Long id;
 
   @ManyToOne
@@ -62,47 +69,57 @@ public class Organization {
 
   @Size(min = 1, max = 100)
   @Column(length = 100, unique = true)
+  @ToString.Include
   private String name;
 
   @Size(max = 50)
   @Column(length = 50)
+  @ToString.Include
   private String phone;
 
   @Size(max = 150)
   @Column(length = 150)
+  @ToString.Include
   private String address;
 
   @Size(max = 50)
   @Column(length = 50)
+  @ToString.Include
   private String city;
 
   @Size(max = 50)
   @Column(length = 50)
+  @ToString.Include
   private String region;
 
   @Size(max = 2)
   @Column(length = 2)
+  @ToString.Include
   private String country;
 
   @Size(max = 25)
   @Column(length = 25)
+  @ToString.Include
   private String postalCode;
 
   @Email
   @Size(min = 5, max = 50)
   @Column(length = 50, unique = false)
+  @ToString.Include
   private String email;
 
   @CreatedDate
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at", nullable = false, updatable = false)
   @JsonProperty("created_at")
+  @ToString.Include
   private Instant createdAt;
 
   @LastModifiedDate
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at", nullable = true)
   @JsonProperty("updated_at")
+  @ToString.Include
   private Instant updatedAt;
 
 }
